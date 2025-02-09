@@ -29,6 +29,7 @@ public class UpgradeSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+		Debug.Log("start");
 		textTitle = text1;
 		textDesc = text2;
 		gameobjects = gb;

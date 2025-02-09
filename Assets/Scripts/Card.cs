@@ -252,11 +252,11 @@ public class Card : MonoBehaviour
 			Enemy.anim.SetTrigger("LightCannon");
 			checksystems();
 			for(int a = 0; a < 1; a++){
-				yield return new WaitForSeconds(0.12f);
+				yield return new WaitForSeconds(0.167f);
 			}
 		}
 		for(int a = 0; a < 1; a++){
-			yield return new WaitForSeconds(0.12f);
+			yield return new WaitForSeconds(0.167f);
 		}
 		Enemy.lr[2].SetPosition (0, Player.pos.position);
 		Enemy.lr[2].SetPosition (1, Player.pos.position);
