@@ -61,6 +61,10 @@ public class Enemy : MonoBehaviour
 	public static Enemy This;
 
 	public Transform Trans;
+
+	public Transform myloc;
+
+	public GameObject[] gobj;
     // Start is called before the first frame update
     void Start()
     {
@@ -375,7 +379,7 @@ public class Enemy : MonoBehaviour
 	IEnumerator Light_Cannon(){
 		for(int i = 0; i < 5; i++){
 			if(Random.Range(0, 101) >= 10){
-				anim.SetTrigger("LightCannon");
+				Instantiate(gobj[0], myloc);
 			if(Random.Range(0, 100) > (Player.Speed * (10 * (PlayerPrefs.GetInt("DrivesLvl") + 1)))){
 
 					ps[2].Play();
@@ -387,7 +391,7 @@ public class Enemy : MonoBehaviour
 				
 				checksystems();
 				for(int a = 0; a < 1; a++){
-					yield return new WaitForSeconds(0.35f);
+					yield return new WaitForSeconds(0.2f);
 				}
 				ps[3].Play();
 					int damage = (int)((float)Random.Range(10, 35) * Mathf.Pow(1.1f , (Static.Weapon1Lvl)));
@@ -401,7 +405,7 @@ public class Enemy : MonoBehaviour
 					As[5].pitch = Random.Range(0.95f, 1.05f);
 					As[5].Play();
 				for(int a = 0; a < 1; a++){
-					yield return new WaitForSeconds(0.15f);
+					yield return new WaitForSeconds(0.1f);
 				}
 				
 			} else {
@@ -415,13 +419,13 @@ public class Enemy : MonoBehaviour
 				//anim.SetTrigger("LightCannon");
 				checksystems();
 					for(int a = 0; a < 1; a++){
-						yield return new WaitForSeconds(0.35f);
+						yield return new WaitForSeconds(0.2f);
 					}
 					GameManager.This.SpawnDmg("Miss", pos3);
 					As[6].pitch = Random.Range(0.95f, 1.05f);
 					As[6].Play();
 					for(int a = 0; a < 1; a++){
-						yield return new WaitForSeconds(0.15f);
+						yield return new WaitForSeconds(0.1f);
 					}
 			}
 			} else {
@@ -431,7 +435,7 @@ public class Enemy : MonoBehaviour
 				As[4].Play();
 				checksystems();
 				for(int a = 0; a < 1; a++){
-					yield return new WaitForSeconds(0.25f);
+					yield return new WaitForSeconds(0.1f);
 				}
 			}
 

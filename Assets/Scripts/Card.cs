@@ -222,7 +222,7 @@ public class Card : MonoBehaviour
 		GameManager.discard.Add (this);
 		for(int i = 0; i < 5; i++){
 			if(Random.Range(0, 101) >= 10){
-				Player.anim.SetTrigger("LMG");
+				Instantiate(Player.me.gobj2[0], Player.me.myloc);
 			if(Random.Range(0, 100) > (Enemy.Speed * (10 * (Static.DrivesLvl + 1)))){
 
 					Player.ps[2].Play();
@@ -231,7 +231,7 @@ public class Card : MonoBehaviour
 					Player.As[3].Play();
 
 					for(int a = 0; a < 1; a++){
-						yield return new WaitForSeconds(0.35f);
+						yield return new WaitForSeconds(0.2f);
 					}
 					Player.ps[3].Play();
 					int damage = (int)((float)Random.Range(10, 35) * Mathf.Pow(1.1f , (PlayerPrefs.GetInt("RepeaterLvl"))));
@@ -245,7 +245,7 @@ public class Card : MonoBehaviour
 					Player.As[5].pitch = Random.Range(0.9f, 1.1f);
 					Player.As[5].Play();
 					for(int a = 0; a < 1; a++){
-						yield return new WaitForSeconds(0.15f);
+						yield return new WaitForSeconds(0.1f);
 					}
 					//Enemy.lr[2].SetPosition (0, Player.pos.position);
 					//Enemy.lr[2].SetPosition (1, Player.hitpos[Random.Range(0, 4)].position);
@@ -259,13 +259,13 @@ public class Card : MonoBehaviour
 				//Enemy.lr[2].SetPosition (1, Player.misspos[Random.Range(0, 3)].position);
 					checksystems();
 					for(int a = 0; a < 1; a++){
-						yield return new WaitForSeconds(0.35f);
+						yield return new WaitForSeconds(0.2f);
 					}
 					GameManager.This.SpawnDmg("Miss", Player.me.damagespawnpos);
 					Player.As[6].pitch = Random.Range(0.9f, 1.1f);
 					Player.As[6].Play();
 					for(int a = 0; a < 1; a++){
-						yield return new WaitForSeconds(0.15f);
+						yield return new WaitForSeconds(0.1f);
 					}
 				} 
 
@@ -276,7 +276,7 @@ public class Card : MonoBehaviour
 				Player.As[4].Play();
 				checksystems();
 				for(int a = 0; a < 1; a++){
-					yield return new WaitForSeconds(0.25f);
+					yield return new WaitForSeconds(0.1f);
 				}
 			}
 
