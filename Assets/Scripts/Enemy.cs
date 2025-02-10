@@ -374,45 +374,73 @@ public class Enemy : MonoBehaviour
 
 	IEnumerator Light_Cannon(){
 		for(int i = 0; i < 5; i++){
-
+			if(Random.Range(0, 101) >= 10){
+				anim.SetTrigger("LightCannon");
 			if(Random.Range(0, 100) > (Player.Speed * (10 * (PlayerPrefs.GetInt("DrivesLvl") + 1)))){
-				if(Random.Range(0, 101) >= 10){
+
 					ps[2].Play();
 					As[3].pitch = Random.Range(0.9f, 1.1f);
 					As[3].Play();
-				int damage = (int)((float)Random.Range(10, 35) * Mathf.Pow(1.1f , (Static.Weapon1Lvl)));
-				Player.health -= (damage - (Player.Shield * (10 * (PlayerPrefs.GetInt("ShieldLvl") + 1)))) > 0 ? (damage - (Player.Shield * (10 * (PlayerPrefs.GetInt("ShieldLvl") + 1)))) : 0;
-				GameManager.This.SpawnDmg("-" + ((damage - (Player.Shield * (10 * (PlayerPrefs.GetInt("ShieldLvl") + 1)))) > 0 ? (damage - (Player.Shield * (10 * (PlayerPrefs.GetInt("ShieldLvl") + 1)))) : 0), pos3);
 				
-				Player.syshealth[selectedSystem] -= (damage - (Player.Shield * (10 * (PlayerPrefs.GetInt("ShieldLvl") + 1)))) > 0 ? (damage - (Player.Shield * (10 * (PlayerPrefs.GetInt("ShieldLvl") + 1)))) : 0;
-				if(Player.syshealth[selectedSystem] < 0){
-					Player.syshealth[selectedSystem] = 0;
+				//lr[2].SetPosition (0, pos.position);
+				//lr[2].SetPosition (1, hitpos[Random.Range(0, 4)].position);
+				
+				checksystems();
+				for(int a = 0; a < 1; a++){
+					yield return new WaitForSeconds(0.35f);
 				}
-				lr[2].SetPosition (0, pos.position);
-				lr[2].SetPosition (1, hitpos[Random.Range(0, 4)].position);
-				} else {
-					//misfire
+				ps[3].Play();
+					int damage = (int)((float)Random.Range(10, 35) * Mathf.Pow(1.1f , (Static.Weapon1Lvl)));
+					Player.health -= (damage - (Player.Shield * (10 * (PlayerPrefs.GetInt("ShieldLvl") + 1)))) > 0 ? (damage - (Player.Shield * (10 * (PlayerPrefs.GetInt("ShieldLvl") + 1)))) : 0;
+					GameManager.This.SpawnDmg("-" + ((damage - (Player.Shield * (10 * (PlayerPrefs.GetInt("ShieldLvl") + 1)))) > 0 ? (damage - (Player.Shield * (10 * (PlayerPrefs.GetInt("ShieldLvl") + 1)))) : 0), pos3);
+					
+					Player.syshealth[selectedSystem] -= (damage - (Player.Shield * (10 * (PlayerPrefs.GetInt("ShieldLvl") + 1)))) > 0 ? (damage - (Player.Shield * (10 * (PlayerPrefs.GetInt("ShieldLvl") + 1)))) : 0;
+					if(Player.syshealth[selectedSystem] < 0){
+						Player.syshealth[selectedSystem] = 0;
+					}
+					As[5].pitch = Random.Range(0.95f, 1.05f);
+					As[5].Play();
+				for(int a = 0; a < 1; a++){
+					yield return new WaitForSeconds(0.15f);
 				}
+				
 			} else {
 				ps[2].Play();
 				As[3].pitch = Random.Range(0.95f, 1.05f);
 				As[3].Play();
-				GameManager.This.SpawnDmg("Miss", pos3);
 				
-				lr[2].SetPosition (0, pos.position);
-				lr[2].SetPosition (1, mp[Random.Range(0, 3)].position);
+				
+				//lr[2].SetPosition (0, pos.position);
+				//lr[2].SetPosition (1, mp[Random.Range(0, 3)].position);
+				//anim.SetTrigger("LightCannon");
+				checksystems();
+					for(int a = 0; a < 1; a++){
+						yield return new WaitForSeconds(0.35f);
+					}
+					GameManager.This.SpawnDmg("Miss", pos3);
+					As[6].pitch = Random.Range(0.95f, 1.05f);
+					As[6].Play();
+					for(int a = 0; a < 1; a++){
+						yield return new WaitForSeconds(0.15f);
+					}
 			}
-			anim.SetTrigger("LightCannon");
-			checksystems();
-			for(int a = 0; a < 1; a++){
-				yield return new WaitForSeconds(0.12f);
+			} else {
+				//misfire
+				//anim.SetTrigger("LightCannon");
+				As[4].pitch = Random.Range(0.95f, 1.05f);
+				As[4].Play();
+				checksystems();
+				for(int a = 0; a < 1; a++){
+					yield return new WaitForSeconds(0.25f);
+				}
 			}
+
 		}
 		for(int a = 0; a < 1; a++){
 			yield return new WaitForSeconds(0.12f);
 		}
-		lr[2].SetPosition (0, pos.position);
-		lr[2].SetPosition (1, pos.position);
+		//lr[2].SetPosition (0, pos.position);
+		//lr[2].SetPosition (1, pos.position);
 	}
 	//unfinished
 	IEnumerator Heavy_Cannon(){

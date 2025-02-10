@@ -221,12 +221,19 @@ public class Card : MonoBehaviour
 		GameManager.avalCardSlots2 [handInd] = true;
 		GameManager.discard.Add (this);
 		for(int i = 0; i < 5; i++){
-			
+			if(Random.Range(0, 101) >= 10){
+				Player.anim.SetTrigger("LMG");
 			if(Random.Range(0, 100) > (Enemy.Speed * (10 * (Static.DrivesLvl + 1)))){
-				if(Random.Range(0, 101) >= 10){
+
 					Player.ps[2].Play();
+					//Player.ps[3].Play();
 					Player.As[3].pitch = Random.Range(0.9f, 1.1f);
 					Player.As[3].Play();
+
+					for(int a = 0; a < 1; a++){
+						yield return new WaitForSeconds(0.35f);
+					}
+					Player.ps[3].Play();
 					int damage = (int)((float)Random.Range(10, 35) * Mathf.Pow(1.1f , (PlayerPrefs.GetInt("RepeaterLvl"))));
 					Player.health -= (damage - (Enemy.Shield * (10 * (Static.ShieldLvl + 1)))) > 0 ? (damage - (Enemy.Shield * (10 * (Static.ShieldLvl + 1)))) : 0;
 					GameManager.This.SpawnDmg("-" + ((damage - (Enemy.Shield * (10 * (Static.ShieldLvl + 1)))) > 0 ? (damage - (Enemy.Shield * (10 * (Static.ShieldLvl + 1)))) : 0), Player.me.damagespawnpos);
@@ -235,31 +242,47 @@ public class Card : MonoBehaviour
 					if(Enemy.syshealth[Player.selectedSystem] < 0){
 						Enemy.syshealth[Player.selectedSystem] = 0;
 					}
-					Enemy.lr[2].SetPosition (0, Player.pos.position);
-					Enemy.lr[2].SetPosition (1, Player.hitpos[Random.Range(0, 4)].position);
-				} else {
-					//misfire
-				}
+					Player.As[5].pitch = Random.Range(0.9f, 1.1f);
+					Player.As[5].Play();
+					for(int a = 0; a < 1; a++){
+						yield return new WaitForSeconds(0.15f);
+					}
+					//Enemy.lr[2].SetPosition (0, Player.pos.position);
+					//Enemy.lr[2].SetPosition (1, Player.hitpos[Random.Range(0, 4)].position);
 			} else {
 				Player.ps[2].Play();
 				Player.As[3].pitch = Random.Range(0.95f, 1.05f);
 				Player.As[3].Play();
 				GameManager.This.SpawnDmg("Miss", Player.me.damagespawnpos);
 				
-				Enemy.lr[2].SetPosition (0, Player.pos.position);
-				Enemy.lr[2].SetPosition (1, Player.misspos[Random.Range(0, 3)].position);
+				//Enemy.lr[2].SetPosition (0, Player.pos.position);
+				//Enemy.lr[2].SetPosition (1, Player.misspos[Random.Range(0, 3)].position);
+					checksystems();
+					for(int a = 0; a < 1; a++){
+						yield return new WaitForSeconds(0.35f);
+					}
+					GameManager.This.SpawnDmg("Miss", Player.me.damagespawnpos);
+					Player.As[6].pitch = Random.Range(0.9f, 1.1f);
+					Player.As[6].Play();
+					for(int a = 0; a < 1; a++){
+						yield return new WaitForSeconds(0.15f);
+					}
+				} 
+
+
+			} else {
+				//Player.anim.SetTrigger("LMG");
+				Player.As[4].pitch = Random.Range(0.9f, 1.1f);
+				Player.As[4].Play();
+				checksystems();
+				for(int a = 0; a < 1; a++){
+					yield return new WaitForSeconds(0.25f);
+				}
 			}
-			Enemy.anim.SetTrigger("LightCannon");
-			checksystems();
-			for(int a = 0; a < 1; a++){
-				yield return new WaitForSeconds(0.167f);
-			}
+
 		}
-		for(int a = 0; a < 1; a++){
-			yield return new WaitForSeconds(0.167f);
-		}
-		Enemy.lr[2].SetPosition (0, Player.pos.position);
-		Enemy.lr[2].SetPosition (1, Player.pos.position);
+	//	Enemy.lr[2].SetPosition (0, Player.pos.position);
+	//	Enemy.lr[2].SetPosition (1, Player.pos.position);
 
 		transform.parent.gameObject.SetActive (false);
 	}
