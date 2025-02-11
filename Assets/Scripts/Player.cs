@@ -56,6 +56,9 @@ public class Player : MonoBehaviour
 	public GameObject[] gobj2;
 
 	public Transform myloc;
+
+	public ParticleSystem[] DestroyParts;
+	public AudioSource[] DestroyAud;
     // Start is called before the first frame update
     void Start()
     {

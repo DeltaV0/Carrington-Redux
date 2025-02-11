@@ -389,7 +389,7 @@ public class Enemy : MonoBehaviour
 				//lr[2].SetPosition (0, pos.position);
 				//lr[2].SetPosition (1, hitpos[Random.Range(0, 4)].position);
 				
-				checksystems();
+				
 				for(int a = 0; a < 1; a++){
 					yield return new WaitForSeconds(0.2f);
 				}
@@ -404,6 +404,7 @@ public class Enemy : MonoBehaviour
 					}
 					As[5].pitch = Random.Range(0.95f, 1.05f);
 					As[5].Play();
+					checksystems();
 				for(int a = 0; a < 1; a++){
 					yield return new WaitForSeconds(0.1f);
 				}

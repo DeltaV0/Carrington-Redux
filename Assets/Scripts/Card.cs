@@ -244,6 +244,7 @@ public class Card : MonoBehaviour
 					}
 					Player.As[5].pitch = Random.Range(0.9f, 1.1f);
 					Player.As[5].Play();
+					checksystems();
 					for(int a = 0; a < 1; a++){
 						yield return new WaitForSeconds(0.1f);
 					}
@@ -257,13 +258,14 @@ public class Card : MonoBehaviour
 				
 				//Enemy.lr[2].SetPosition (0, Player.pos.position);
 				//Enemy.lr[2].SetPosition (1, Player.misspos[Random.Range(0, 3)].position);
-					checksystems();
+
 					for(int a = 0; a < 1; a++){
 						yield return new WaitForSeconds(0.2f);
 					}
 					GameManager.This.SpawnDmg("Miss", Player.me.damagespawnpos);
 					Player.As[6].pitch = Random.Range(0.9f, 1.1f);
 					Player.As[6].Play();
+					checksystems();
 					for(int a = 0; a < 1; a++){
 						yield return new WaitForSeconds(0.1f);
 					}
@@ -379,11 +381,25 @@ public class Card : MonoBehaviour
 
 	void checksystems(){
 		//deactivate enemy systems if destroyed
+		//or particles/sfx?
 		if(Enemy.syshealth[2] <= 0){
 			Enemy.Shieldobj.SetActive(false);
 			Enemy.Shield = 0;
-		} else if(Enemy.syshealth[3] <= 0){
+			Player.me.DestroyParts[2].Play();
+			Player.me.DestroyAud[2].Play();
+		}
+		if(Enemy.syshealth[3] <= 0){
 			Enemy.Speed = 0;
+			Player.me.DestroyParts[3].Play();
+			Player.me.DestroyAud[3].Play();
+		}
+		if(Enemy.syshealth[0] <= 0){
+			Player.me.DestroyParts[0].Play();
+			Player.me.DestroyAud[0].Play();
+		}
+		if(Enemy.syshealth[1] <= 0){
+			Player.me.DestroyParts[1].Play();
+			Player.me.DestroyAud[1].Play();
 		}
 	}
 }
