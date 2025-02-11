@@ -65,6 +65,8 @@ public class GameManager : MonoBehaviour
 	private int[] cardstodraw = {0, 3, 1, 0, 2, 1};
 
 	public Sprite[] sprites;
+
+	public bool waitPlay;
 	//public Text deckSizeText;
 	void Awake(){
 		cards.SetActive (false);

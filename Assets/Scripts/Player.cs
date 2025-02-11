@@ -12,6 +12,8 @@ public class Player : MonoBehaviour
 
 	public static int[] syshealth = new int[4];
 
+	public static bool[] sysdead = new bool[4];
+
 	public static int selectedSystem;
 
 	public static int steam;

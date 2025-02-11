@@ -16,6 +16,8 @@ public class Enemy : MonoBehaviour
 
 	public static int[] syshealth = new int[4];
 
+	public static bool[] sysdead = new bool[4];
+
 	public int selectedSystem;
 
 	public static int Shield;
@@ -202,6 +204,7 @@ public class Enemy : MonoBehaviour
 					break;
 				}
 				} else {
+					sysdead[2] = false;
 					syshealth[2] += Random.Range(50, 75);
 					break;
 				}
@@ -221,6 +224,7 @@ public class Enemy : MonoBehaviour
 					break;
 				}
 				} else {
+					sysdead[3] = false;
 					syshealth[3] += Random.Range(50, 75);
 					break;
 				}
@@ -245,6 +249,7 @@ public class Enemy : MonoBehaviour
 							power -= 1;
 						} else {
 							power -= 1;
+							sysdead[0] = false;
 							syshealth[0] += Random.Range(50, 75);
 							repDmg = true;
 							i--;
@@ -260,6 +265,7 @@ public class Enemy : MonoBehaviour
 							power -= 1;
 						} else {
 							power -= 1;
+							sysdead[0] = false;
 							syshealth[0] += Random.Range(50, 75);
 							repDmg = true;
 							i--;
@@ -280,6 +286,7 @@ public class Enemy : MonoBehaviour
 					power -= 1;
 					} else {
 						power -= 1;
+						sysdead[1] = false;
 						syshealth[1] += Random.Range(50, 75);
 						break;
 					}
@@ -492,11 +499,25 @@ public class Enemy : MonoBehaviour
 	}
 
 	void checksystems(){
-		if(Player.syshealth[2] <= 0){
+		if(Player.syshealth[2] <= 0 && !Player.sysdead[2]){
+			Player.sysdead[2] = true;
 			Player.Shieldobj.SetActive(false);
 			Player.Shield = 0;
-		} else if(Player.syshealth[3] <= 0){
+			Player.me.DestroyParts[6].Play();
+			Player.me.DestroyAud[2].Play();
+		} else if(Player.syshealth[3] <= 0 && !Player.sysdead[3]){
+			Player.sysdead[3] = true;
 			Player.Speed = 0;
+			Player.me.DestroyParts[7].Play();
+			Player.me.DestroyAud[3].Play();
+		} else if(Player.syshealth[1] <= 0 && !Player.sysdead[1]){
+			Player.sysdead[1] = true;
+			Player.me.DestroyParts[5].Play();
+			Player.me.DestroyAud[1].Play();
+		} else if(Player.syshealth[0] <= 0 && !Player.sysdead[0]){
+			Player.sysdead[0] = true;
+			Player.me.DestroyParts[4].Play();
+			Player.me.DestroyAud[0].Play();
 		}
 	}
 }

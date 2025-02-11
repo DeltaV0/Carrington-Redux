@@ -53,6 +53,9 @@ public class Card : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+		if(GameManager.This.waitPlay){
+			hovering = false;
+		}
 		if(GameManager.turn % 2 == 1 && !played){
 			played = true;
 			GameManager.avalCardSlots2 [handInd] = true;
@@ -123,13 +126,14 @@ public class Card : MonoBehaviour
     }
 
 	private void OnMouseDown(){
-		if(GameManager.turn % 2 == 0 && !played){
+		if(GameManager.turn % 2 == 0 && !played && !GameManager.This.waitPlay){
 		CardEff ();
 		}
 	}
 
 	private void OnMouseOver () {
 
+		if(!GameManager.This.waitPlay){
 		hovering = true;
 		if(Input.GetMouseButton(1) && GameManager.turn % 2 == 0 && !played){
 			played = true;
@@ -139,9 +143,9 @@ public class Card : MonoBehaviour
 			anim.SetTrigger("Discard");
 			Invoke("Deactivate", 1f);
 		}
+		}
 	}
 	private void OnMouseExit () {
-
 		hovering = false;
 	}
 
@@ -220,6 +224,7 @@ public class Card : MonoBehaviour
 		played = true;
 		GameManager.avalCardSlots2 [handInd] = true;
 		GameManager.discard.Add (this);
+		GameManager.This.waitPlay = true;
 		for(int i = 0; i < 5; i++){
 			if(Random.Range(0, 101) >= 10){
 				Instantiate(Player.me.gobj2[0], Player.me.myloc);
@@ -281,7 +286,7 @@ public class Card : MonoBehaviour
 					yield return new WaitForSeconds(0.1f);
 				}
 			}
-
+			GameManager.This.waitPlay = false;
 		}
 	//	Enemy.lr[2].SetPosition (0, Player.pos.position);
 	//	Enemy.lr[2].SetPosition (1, Player.pos.position);
@@ -294,6 +299,7 @@ public class Card : MonoBehaviour
 		played = true;
 		GameManager.avalCardSlots2 [handInd] = true;
 		GameManager.discard.Add (this);
+		GameManager.This.waitPlay = true;
 		for(int i = 0; i < 10; i++){
 			Player.As[0].pitch = Random.Range(0.95f, 1.05f);
 			Player.ps[0].Play();
@@ -328,6 +334,7 @@ public class Card : MonoBehaviour
 
 
 		transform.parent.gameObject.SetActive (false);
+		GameManager.This.waitPlay = false;
 	}
 
 	IEnumerator Refractor(){
@@ -335,6 +342,7 @@ public class Card : MonoBehaviour
 		played = true;
 		GameManager.avalCardSlots2 [handInd] = true;
 		GameManager.discard.Add (this);
+		GameManager.This.waitPlay = true;
 		bool ooo = false;
 		int c = Random.Range(0, 6);
 		int c2 = Random.Range(0, 4);
@@ -377,27 +385,32 @@ public class Card : MonoBehaviour
 
 
 		transform.parent.gameObject.SetActive (false);
+		GameManager.This.waitPlay = false;
 	}
 
 	void checksystems(){
 		//deactivate enemy systems if destroyed
 		//or particles/sfx?
-		if(Enemy.syshealth[2] <= 0){
+		if(Enemy.syshealth[2] <= 0 && !Enemy.sysdead[2]){
+			Enemy.sysdead[2] = true;
 			Enemy.Shieldobj.SetActive(false);
 			Enemy.Shield = 0;
 			Player.me.DestroyParts[2].Play();
 			Player.me.DestroyAud[2].Play();
 		}
-		if(Enemy.syshealth[3] <= 0){
+		if(Enemy.syshealth[3] <= 0 && !Enemy.sysdead[3]){
+			Enemy.sysdead[3] = true;
 			Enemy.Speed = 0;
 			Player.me.DestroyParts[3].Play();
 			Player.me.DestroyAud[3].Play();
 		}
-		if(Enemy.syshealth[0] <= 0){
+		if(Enemy.syshealth[0] <= 0 && !Enemy.sysdead[0]){
+			Enemy.sysdead[0] = true;
 			Player.me.DestroyParts[0].Play();
 			Player.me.DestroyAud[0].Play();
 		}
-		if(Enemy.syshealth[1] <= 0){
+		if(Enemy.syshealth[1] <= 0 && !Enemy.sysdead[1]){
+			Enemy.sysdead[1] = true;
 			Player.me.DestroyParts[1].Play();
 			Player.me.DestroyAud[1].Play();
 		}

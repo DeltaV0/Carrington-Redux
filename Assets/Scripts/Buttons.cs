@@ -77,7 +77,7 @@ public class Buttons : MonoBehaviour
 	}
 
 	public void NextTurn(){
-		if(GameManager.turn % 2 == 0){
+		if(GameManager.turn % 2 == 0 && !GameManager.This.waitPlay){
 
 			GameManager.anim.SetTrigger("EnemyTurn");
 			text1.text = "";
