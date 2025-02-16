@@ -14,12 +14,21 @@ public class BulletObj : MonoBehaviour
     {
 		if(type == 0){
 			StartCoroutine(Bolt());
+		} else if(type == 1){
+			StartCoroutine(Rocket());
 		}
     }
 
 	IEnumerator Bolt(){
 		for(int a = 0; a < 1; a++){
 			yield return new WaitForSeconds(0.35f);
+		}
+		Destroy(gameObject);
+	}
+
+	IEnumerator Rocket(){
+		for(int a = 0; a < 1; a++){
+			yield return new WaitForSeconds(3f);
 		}
 		Destroy(gameObject);
 	}

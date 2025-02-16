@@ -32,9 +32,11 @@ public class Card : MonoBehaviour
 		if(ID == 0){
 			if(PlayerPrefs.GetInt("EquippedWeapon") == 0){
 			sprite.sprite = GameManager.This.sprites[0];
-		} else {
+			} else if(PlayerPrefs.GetInt("EquippedWeapon") == 1){
 			sprite.sprite = GameManager.This.sprites[1];
-		}
+			} else if(PlayerPrefs.GetInt("EquippedWeapon") == 2){
+				sprite.sprite = GameManager.This.sprites[2];
+			}
 		}
 		origpos = transform.position;
 		hovering = false;
@@ -89,9 +91,15 @@ public class Card : MonoBehaviour
 				Buttons.text1.text = "Repeater \n Mk " + (PlayerPrefs.GetInt("RepeaterLvl"));
 				Buttons.text2.text = "Deals damage over several shots. \n \n Average Damage: " + (int)(112.5 * Mathf.Pow(1.1f , (PlayerPrefs.GetInt("RepeaterLvl")))) + "\nShots: 10\nCosts 5 power";
 				break;
-				} else {
+				} else if(PlayerPrefs.GetInt("EquippedWeapon") == 1){
 					Buttons.text1.text = "Light Cannon \n Mk " + (PlayerPrefs.GetInt("RepeaterLvl"));
 					Buttons.text2.text = "Deals damage over several shots.\n Has 10% chance to misfire \n \n Average Damage: " + (int)(100 * Mathf.Pow(1.1f , (PlayerPrefs.GetInt("RepeaterLvl")))) + "\nShots: 5\nCosts 5 power";
+					break;
+				} else if(PlayerPrefs.GetInt("EquippedWeapon") == 2){
+					Buttons.text1.text = "Missile Launcher \n Mk " + (PlayerPrefs.GetInt("RefractorLvl"));
+					Buttons.text2.text = "Fires a single missile with a large payload, dealing splash damage to all enemy systems \n \n Average Damage: " + (int)(90 * Mathf.Pow(1.1f , (PlayerPrefs.GetInt("RefractorLvl")))) + "\nShots: 1\nCosts 5 power";
+					break;
+				} else {
 					break;
 				}
 			case 1:
@@ -158,8 +166,10 @@ public class Card : MonoBehaviour
 				if(Player.syshealth[0] > 0){
 					if(PlayerPrefs.GetInt("EquippedWeapon") == 1){
 					StartCoroutine(Light_Cannon());
-					} else {
+					} else if(PlayerPrefs.GetInt("EquippedWeapon") == 0){
 						StartCoroutine(Repeater());
+					} else if(PlayerPrefs.GetInt("EquippedWeapon") == 2){
+						StartCoroutine(Missile_Launcher());
 					}
 				} else {
 					Player.steam += SteamReq;
@@ -219,6 +229,86 @@ public class Card : MonoBehaviour
 		transform.parent.gameObject.SetActive (false);
 	}
 
+	IEnumerator Missile_Launcher(){
+		anim.SetTrigger("Play");
+		played = true;
+		GameManager.avalCardSlots2 [handInd] = true;
+		GameManager.discard.Add (this);
+		GameManager.This.waitPlay = true;
+		for(int i = 0; i < 1; i++){
+				Instantiate(Player.me.gobj2[1], Player.me.myloc);
+				if(Random.Range(0, 100) > (Enemy.Speed * (10 * (Static.DrivesLvl + 1)))){
+					
+					//Player.ps[2].Play();
+					//Player.ps[3].Play();
+					//Player.As[3].pitch = Random.Range(0.9f, 1.1f);
+					//Player.As[3].Play();
+					
+					for(int a = 0; a < 1; a++){
+						yield return new WaitForSeconds(3f);
+					}
+					Player.ps[4].Play();
+					Player.As[7].Play();
+					int damage = (int)((float)Random.Range(70, 100) * Mathf.Pow(1.1f , (PlayerPrefs.GetInt("RefractorLvl"))));
+					Player.health -= (damage - (Enemy.Shield * (10 * (Static.ShieldLvl + 1)))) > 0 ? (damage - (Enemy.Shield * (10 * (Static.ShieldLvl + 1)))) : 0;
+					GameManager.This.SpawnDmg("-" + ((damage - (Enemy.Shield * (10 * (Static.ShieldLvl + 1)))) > 0 ? (damage - (Enemy.Shield * (10 * (Static.ShieldLvl + 1)))) : 0), Player.me.damagespawnpos);
+					
+					Enemy.syshealth[Player.selectedSystem] -= (damage - (Enemy.Shield * (10 * (Static.ShieldLvl + 1)))) > 0 ? (damage - (Enemy.Shield * (10 * (Static.ShieldLvl) + 1))) : 0;
+					//maybe swap this out for something smaller?
+					//GameManager.This.SpawnDmg("-" + ((damage - (Enemy.Shield * (10 * (Static.ShieldLvl + 1)))) > 0 ? (damage - (Enemy.Shield * (10 * (Static.ShieldLvl + 1)))) : 0), Player.me.damagespawnpos);
+					if(Enemy.syshealth[Player.selectedSystem] < 0){
+						Enemy.syshealth[Player.selectedSystem] = 0;
+					}
+					
+					for(int a99 = 0; a99 < 4; a99++){
+					if(a99 != Player.selectedSystem){
+					damage = (int)((float)Random.Range(30, 40) * Mathf.Pow(1.1f , (PlayerPrefs.GetInt("RefractorLvl"))));
+					Enemy.syshealth[a99] -= (damage - (Enemy.Shield * (10 * (Static.ShieldLvl + 1)))) > 0 ? (damage - (Enemy.Shield * (10 * (Static.ShieldLvl) + 1))) : 0;
+					//maybe swap this out for something smaller?
+					GameManager.This.SpawnDmg("-" + ((damage - (Enemy.Shield * (10 * (Static.ShieldLvl + 1)))) > 0 ? (damage - (Enemy.Shield * (10 * (Static.ShieldLvl + 1)))) : 0), Player.me.damagespawnpos);
+					if(Enemy.syshealth[a99] < 0){
+						Enemy.syshealth[a99] = 0;
+					}
+					}
+					}
+					//Player.As[5].pitch = Random.Range(0.9f, 1.1f);
+					//Player.As[5].Play();
+					checksystems();
+					for(int a = 0; a < 1; a++){
+						yield return new WaitForSeconds(0.1f);
+					}
+					//Enemy.lr[2].SetPosition (0, Player.pos.position);
+					//Enemy.lr[2].SetPosition (1, Player.hitpos[Random.Range(0, 4)].position);
+				} else {
+					//Player.ps[2].Play();
+					//Player.As[3].pitch = Random.Range(0.95f, 1.05f);
+					//Player.As[3].Play();
+					//GameManager.This.SpawnDmg("Miss", Player.me.damagespawnpos);
+					
+					//Enemy.lr[2].SetPosition (0, Player.pos.position);
+					//Enemy.lr[2].SetPosition (1, Player.misspos[Random.Range(0, 3)].position);
+					
+					for(int a = 0; a < 1; a++){
+						yield return new WaitForSeconds(3f);
+					}
+					GameManager.This.SpawnDmg("Miss", Player.me.damagespawnpos);
+					//Player.As[6].pitch = Random.Range(0.9f, 1.1f);
+					//Player.As[6].Play();
+					checksystems();
+					for(int a = 0; a < 1; a++){
+						yield return new WaitForSeconds(0.1f);
+					}
+				} 
+				
+
+			GameManager.This.waitPlay = false;
+		}
+		//	Enemy.lr[2].SetPosition (0, Player.pos.position);
+		//	Enemy.lr[2].SetPosition (1, Player.pos.position);
+		
+		transform.parent.gameObject.SetActive (false);
+	}
+
 	IEnumerator Light_Cannon(){
 		anim.SetTrigger("Play");
 		played = true;
@@ -259,7 +349,7 @@ public class Card : MonoBehaviour
 				Player.ps[2].Play();
 				Player.As[3].pitch = Random.Range(0.95f, 1.05f);
 				Player.As[3].Play();
-				GameManager.This.SpawnDmg("Miss", Player.me.damagespawnpos);
+				//GameManager.This.SpawnDmg("Miss", Player.me.damagespawnpos);
 				
 				//Enemy.lr[2].SetPosition (0, Player.pos.position);
 				//Enemy.lr[2].SetPosition (1, Player.misspos[Random.Range(0, 3)].position);

@@ -194,8 +194,10 @@ public class GameManager : MonoBehaviour
 
 		if(PlayerPrefs.GetInt("EquippedWeapon") == 0){
 		PlayerEquip[0].text = "MK " + PlayerPrefs.GetInt("RepeaterLvl") + " Repeater";
-		} else {
+		} else if(PlayerPrefs.GetInt("EquippedWeapon") == 1){
 		PlayerEquip[0].text = "MK " + PlayerPrefs.GetInt("RepeaterLvl") + " Light Cannon";
+		} else {
+		PlayerEquip[0].text = "MK " + PlayerPrefs.GetInt("RefractorLvl") + " Missile Launcher";
 		}
 		PlayerEquip[1].text = "MK " + PlayerPrefs.GetInt("RefractorLvl") + " Refractor";
 		PlayerEquip[2].text = "MK " + PlayerPrefs.GetInt("ShieldLvl") + " Shields";

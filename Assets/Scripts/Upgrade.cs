@@ -48,7 +48,11 @@ public class Upgrade : MonoBehaviour
 				UpgradeSpawner.textDesc.text = "Increases Drives' avoidance capabilities \n " + (10 *  (PlayerPrefs.GetInt("DrivesLvl") + 1)) + " Dodge Chance -> " + (10 * (PlayerPrefs.GetInt("DrivesLvl") + 2)) + " Dodge Chance";
 			} else if(ID == 4){
 				UpgradeSpawner.textTitle.text = "Light Cannon Mk " + (PlayerPrefs.GetInt("RepeaterLvl") + 1);
-				UpgradeSpawner.textDesc.text = "Increases damage output of the Refractor \n " + (int)(100 * Mathf.Pow(1.1f , PlayerPrefs.GetInt("RepeaterLvl"))) + " Average Damage -> " + (int)(100 * Mathf.Pow(1.1f , (PlayerPrefs.GetInt("RepeaterLvl") + 1))) + " Average Damage";
+				UpgradeSpawner.textDesc.text = "Increases damage output of the Light Cannon \n " + (int)(100 * Mathf.Pow(1.1f , PlayerPrefs.GetInt("RepeaterLvl"))) + " Average Damage -> " + (int)(100 * Mathf.Pow(1.1f , (PlayerPrefs.GetInt("RepeaterLvl") + 1))) + " Average Damage";
+			} else if(ID == 5){
+				//update this and the light cannon to change desc when unlockeing for first time
+				UpgradeSpawner.textTitle.text = "Missile Launcher Mk " + (PlayerPrefs.GetInt("RefractorLvl") + 1);
+				UpgradeSpawner.textDesc.text = "Increases damage output of the Missile Launcher \n " + (int)(90 * Mathf.Pow(1.1f , PlayerPrefs.GetInt("RefractorLvl"))) + " Average Damage -> " + (int)(90 * Mathf.Pow(1.1f , (PlayerPrefs.GetInt("RefractorLvl") + 1))) + " Average Damage";
 			}
 		} else {
 			upgrade.localScale = new Vector3(40f, 40f, 1f);
@@ -68,11 +72,16 @@ public class Upgrade : MonoBehaviour
 		} else if(ID == 3){
 			PlayerPrefs.SetInt("DrivesLvl", PlayerPrefs.GetInt("DrivesLvl") + 1);
 		} else if(ID == 4){
-
 			if(PlayerPrefs.GetInt("LCUnlocked?") == 0){
 				PlayerPrefs.SetInt("LCUnlocked?", 1);
 			} else {
 				PlayerPrefs.SetInt("RepeaterLvl", PlayerPrefs.GetInt("RepeaterLvl") + 1);
+			}
+		} else if(ID == 5){
+			if(PlayerPrefs.GetInt("MLUnlocked?") == 0){
+				PlayerPrefs.SetInt("MLUnlocked?", 1);
+			} else {
+				PlayerPrefs.SetInt("RefractorLvl", PlayerPrefs.GetInt("RefractorLvl") + 1);
 			}
 		}
 		for(int i = 0; i < UpgradeSpawner.cardsremaining.Count; i++){
