@@ -30,12 +30,25 @@ public class Card : MonoBehaviour
     {
 		sprite = gameObject.GetComponent<SpriteRenderer>();
 		if(ID == 0){
-			if(PlayerPrefs.GetInt("EquippedWeapon") == 0){
+			if(PlayerPrefs.GetInt("EquippedWeapon1") == 0){
 			sprite.sprite = GameManager.This.sprites[0];
-			} else if(PlayerPrefs.GetInt("EquippedWeapon") == 1){
+			} else if(PlayerPrefs.GetInt("EquippedWeapon1") == 1){
 			sprite.sprite = GameManager.This.sprites[1];
-			} else if(PlayerPrefs.GetInt("EquippedWeapon") == 2){
+			} else if(PlayerPrefs.GetInt("EquippedWeapon1") == 2){
 				sprite.sprite = GameManager.This.sprites[2];
+			} else if(PlayerPrefs.GetInt("EquippedWeapon1") == 3){
+				sprite.sprite = GameManager.This.sprites[3];
+			}
+		}
+		if(ID == 5){
+			if(PlayerPrefs.GetInt("EquippedWeapon2") == 0){
+				sprite.sprite = GameManager.This.sprites[0];
+			} else if(PlayerPrefs.GetInt("EquippedWeapon2") == 1){
+				sprite.sprite = GameManager.This.sprites[1];
+			} else if(PlayerPrefs.GetInt("EquippedWeapon2") == 2){
+				sprite.sprite = GameManager.This.sprites[2];
+			} else if(PlayerPrefs.GetInt("EquippedWeapon2") == 3){
+				sprite.sprite = GameManager.This.sprites[3];
 			}
 		}
 		origpos = transform.position;
@@ -87,17 +100,21 @@ public class Card : MonoBehaviour
 			switch(ID)
 			{
 			case 0:
-				if(PlayerPrefs.GetInt("EquippedWeapon") == 0){
+				if(PlayerPrefs.GetInt("EquippedWeapon1") == 0){
 				Buttons.text1.text = "Repeater \n Mk " + (PlayerPrefs.GetInt("RepeaterLvl"));
 				Buttons.text2.text = "Deals damage over several shots. \n \n Average Damage: " + (int)(112.5 * Mathf.Pow(1.1f , (PlayerPrefs.GetInt("RepeaterLvl")))) + "\nShots: 10\nCosts 5 power";
 				break;
-				} else if(PlayerPrefs.GetInt("EquippedWeapon") == 1){
+				} else if(PlayerPrefs.GetInt("EquippedWeapon1") == 1){
 					Buttons.text1.text = "Light Cannon \n Mk " + (PlayerPrefs.GetInt("RepeaterLvl"));
 					Buttons.text2.text = "Deals damage over several shots.\n Has 10% chance to misfire \n \n Average Damage: " + (int)(100 * Mathf.Pow(1.1f , (PlayerPrefs.GetInt("RepeaterLvl")))) + "\nShots: 5\nCosts 5 power";
 					break;
-				} else if(PlayerPrefs.GetInt("EquippedWeapon") == 2){
+				} else if(PlayerPrefs.GetInt("EquippedWeapon1") == 2){
 					Buttons.text1.text = "Missile Launcher \n Mk " + (PlayerPrefs.GetInt("RefractorLvl"));
 					Buttons.text2.text = "Fires a single missile with a large payload, dealing splash damage to all enemy systems \n \n Average Damage: " + (int)(90 * Mathf.Pow(1.1f , (PlayerPrefs.GetInt("RefractorLvl")))) + "\nShots: 1\nCosts 5 power";
+					break;
+				} else if(PlayerPrefs.GetInt("EquippedWeapon1") == 3){
+					Buttons.text1.text = "Refractor \n Mk " + (PlayerPrefs.GetInt("RefractorLvl"));
+					Buttons.text2.text = "Deals damage over a single shot. \n \n Average Damage: " + (int)(90 * Mathf.Pow(1.1f , (PlayerPrefs.GetInt("RefractorLvl")))) + "\nShots: 1\nCosts 5 power";
 					break;
 				} else {
 					break;
@@ -119,9 +136,25 @@ public class Card : MonoBehaviour
 				Buttons.text2.text = "Draw 2 random cards from your deck \n \n Costs 5 Steam";
 				break;
 			case 5:
-				Buttons.text1.text = "Refractor \n Mk " + (PlayerPrefs.GetInt("RefractorLvl"));
-				Buttons.text2.text = "Deals damage over a single shot. \n \n Average Damage: " + (int)(90 * Mathf.Pow(1.1f , (PlayerPrefs.GetInt("RefractorLvl")))) + "\nShots: 1\nCosts 5 power";
-				break;
+				if(PlayerPrefs.GetInt("EquippedWeapon2") == 0){
+					Buttons.text1.text = "Repeater \n Mk " + (PlayerPrefs.GetInt("RepeaterLvl"));
+					Buttons.text2.text = "Deals damage over several shots. \n \n Average Damage: " + (int)(112.5 * Mathf.Pow(1.1f , (PlayerPrefs.GetInt("RepeaterLvl")))) + "\nShots: 10\nCosts 5 power";
+					break;
+				} else if(PlayerPrefs.GetInt("EquippedWeapon2") == 1){
+					Buttons.text1.text = "Light Cannon \n Mk " + (PlayerPrefs.GetInt("RepeaterLvl"));
+					Buttons.text2.text = "Deals damage over several shots.\n Has 10% chance to misfire \n \n Average Damage: " + (int)(100 * Mathf.Pow(1.1f , (PlayerPrefs.GetInt("RepeaterLvl")))) + "\nShots: 5\nCosts 5 power";
+					break;
+				} else if(PlayerPrefs.GetInt("EquippedWeapon2") == 2){
+					Buttons.text1.text = "Missile Launcher \n Mk " + (PlayerPrefs.GetInt("RefractorLvl"));
+					Buttons.text2.text = "Fires a single missile with a large payload, dealing splash damage to all enemy systems \n \n Average Damage: " + (int)(90 * Mathf.Pow(1.1f , (PlayerPrefs.GetInt("RefractorLvl")))) + "\nShots: 1\nCosts 5 power";
+					break;
+				} else if(PlayerPrefs.GetInt("EquippedWeapon2") == 3){
+					Buttons.text1.text = "Refractor \n Mk " + (PlayerPrefs.GetInt("RefractorLvl"));
+					Buttons.text2.text = "Deals damage over a single shot. \n \n Average Damage: " + (int)(90 * Mathf.Pow(1.1f , (PlayerPrefs.GetInt("RefractorLvl")))) + "\nShots: 1\nCosts 5 power";
+					break;
+				} else {
+					break;
+				}
 			case 6:
 				Buttons.text1.text = "Drives System \n Mk " + (PlayerPrefs.GetInt("DrivesLvl"));
 				Buttons.text2.text = "" + (10 * (PlayerPrefs.GetInt("DrivesLvl") + 1)) + "% chance to dodge per shot per level\nCosts 5 power";
@@ -164,12 +197,14 @@ public class Card : MonoBehaviour
 
 		if(ID == 0){
 				if(Player.syshealth[0] > 0){
-					if(PlayerPrefs.GetInt("EquippedWeapon") == 1){
+					if(PlayerPrefs.GetInt("EquippedWeapon1") == 1){
 					StartCoroutine(Light_Cannon());
-					} else if(PlayerPrefs.GetInt("EquippedWeapon") == 0){
+					} else if(PlayerPrefs.GetInt("EquippedWeapon1") == 0){
 						StartCoroutine(Repeater());
-					} else if(PlayerPrefs.GetInt("EquippedWeapon") == 2){
+					} else if(PlayerPrefs.GetInt("EquippedWeapon1") == 2){
 						StartCoroutine(Missile_Launcher());
+					} else if(PlayerPrefs.GetInt("EquippedWeapon1") == 3){
+						StartCoroutine(Refractor());
 					}
 				} else {
 					Player.steam += SteamReq;
@@ -196,7 +231,15 @@ public class Card : MonoBehaviour
 				}
 			} else if(ID == 5){
 				if(Player.syshealth[1] > 0){
-				StartCoroutine(Refractor());
+					if(PlayerPrefs.GetInt("EquippedWeapon2") == 1){
+						StartCoroutine(Light_Cannon());
+					} else if(PlayerPrefs.GetInt("EquippedWeapon2") == 0){
+						StartCoroutine(Repeater());
+					} else if(PlayerPrefs.GetInt("EquippedWeapon2") == 2){
+						StartCoroutine(Missile_Launcher());
+					} else if(PlayerPrefs.GetInt("EquippedWeapon2") == 3){
+						StartCoroutine(Refractor());
+					}
 				} else {
 					Player.steam += SteamReq;
 					Player.power += PwrReq;
@@ -250,7 +293,7 @@ public class Card : MonoBehaviour
 					Player.ps[4].Play();
 					Player.As[7].Play();
 					int damage = (int)((float)Random.Range(70, 100) * Mathf.Pow(1.1f , (PlayerPrefs.GetInt("RefractorLvl"))));
-					Player.health -= (damage - (Enemy.Shield * (10 * (Static.ShieldLvl + 1)))) > 0 ? (damage - (Enemy.Shield * (10 * (Static.ShieldLvl + 1)))) : 0;
+					Enemy.health -= (damage - (Enemy.Shield * (10 * (Static.ShieldLvl + 1)))) > 0 ? (damage - (Enemy.Shield * (10 * (Static.ShieldLvl + 1)))) : 0;
 					GameManager.This.SpawnDmg("-" + ((damage - (Enemy.Shield * (10 * (Static.ShieldLvl + 1)))) > 0 ? (damage - (Enemy.Shield * (10 * (Static.ShieldLvl + 1)))) : 0), Player.me.damagespawnpos);
 					
 					Enemy.syshealth[Player.selectedSystem] -= (damage - (Enemy.Shield * (10 * (Static.ShieldLvl + 1)))) > 0 ? (damage - (Enemy.Shield * (10 * (Static.ShieldLvl) + 1))) : 0;
@@ -330,7 +373,7 @@ public class Card : MonoBehaviour
 					}
 					Player.ps[3].Play();
 					int damage = (int)((float)Random.Range(10, 35) * Mathf.Pow(1.1f , (PlayerPrefs.GetInt("RepeaterLvl"))));
-					Player.health -= (damage - (Enemy.Shield * (10 * (Static.ShieldLvl + 1)))) > 0 ? (damage - (Enemy.Shield * (10 * (Static.ShieldLvl + 1)))) : 0;
+					Enemy.health -= (damage - (Enemy.Shield * (10 * (Static.ShieldLvl + 1)))) > 0 ? (damage - (Enemy.Shield * (10 * (Static.ShieldLvl + 1)))) : 0;
 					GameManager.This.SpawnDmg("-" + ((damage - (Enemy.Shield * (10 * (Static.ShieldLvl + 1)))) > 0 ? (damage - (Enemy.Shield * (10 * (Static.ShieldLvl + 1)))) : 0), Player.me.damagespawnpos);
 					
 					Enemy.syshealth[Player.selectedSystem] -= (damage - (Enemy.Shield * (10 * (Static.ShieldLvl + 1)))) > 0 ? (damage - (Enemy.Shield * (10 * (Static.ShieldLvl) + 1))) : 0;

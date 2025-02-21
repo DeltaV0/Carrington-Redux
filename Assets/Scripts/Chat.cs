@@ -26,6 +26,7 @@ public class Chat : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+		GameManager.This.waitPlay = true;
 		speaker = 0;
 		currentlyTyping = false;
 		section = 0;
@@ -35,7 +36,17 @@ public class Chat : MonoBehaviour
 		//tutorialText[0].SetActive(true);
     }
 
-
+	public void startAgain(int t){
+		GameManager.This.waitPlay = true;
+		speaker = 0;
+		currentlyTyping = false;
+		section = 0;
+		SetText (PlayerPrefs.GetInt("Day"), PlayerPrefs.GetInt("ID"), t);
+		setSpeaker(int.Parse(text2 [section][1]), int.Parse(text2 [section][2]));
+		StartCoroutine(Type(text2[section][0]));
+		GameManager.This.cards.SetActive (false);
+		GameManager.This.chat.SetActive (true);
+	}
 
 	void setSpeaker(int a, int b){
 		for (int i = 0; i < 3; i++) {
@@ -114,6 +125,7 @@ public class Chat : MonoBehaviour
 	}
 
 	public void done(){
+		GameManager.This.waitPlay = false;
 		GameManager.anim.SetTrigger("PlayerTurn");
 		GameManager.This.cards.SetActive (true);
 		GameManager.This.chat.SetActive (false);
@@ -125,7 +137,7 @@ public class Chat : MonoBehaviour
 
 	}
 
-	public void SetText(int day, int ID){
+	public void SetText(int day, int ID, int a){
 		if (day == 0) {
 			text2.Add (new string[]{"Good afternoon commander!", "1", "0"});
 			text2.Add (new string[]{"With all of your training, we are sure that you know exactly what you're doing.", "1", "0"});

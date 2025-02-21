@@ -10,15 +10,18 @@ public class WeaponManager : MonoBehaviour
 
 	public static GameObject choice;
 
-	public Transform[] optionsT;
+	public Transform[] optionsselectedT;
+
+	public Transform[] optionsqueueT;
 	
 	public static Transform choiceT;
 
+	public static int selectedSlot;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+		set ();
     }
 
     // Update is called once per frame
@@ -40,28 +43,75 @@ public class WeaponManager : MonoBehaviour
     }
 
 	void set(){
-		if(PlayerPrefs.GetInt("EquippedWeapon") == 0){
+		for(int i = 0; i < 4; i++){
+			if(i != PlayerPrefs.GetInt("EquippedWeapon1") && i != PlayerPrefs.GetInt("EquippedWeapon2")){
+				options[i].transform.position = optionsqueueT[i].position;
+				options[i].GetComponent<CardEquipment>().originalpos = options[i].transform;
+				options[i].GetComponent<CardEquipment>().equipped = false;
+				options[i].GetComponent<CardEquipment>().slot = -1;
+			} else if(i == PlayerPrefs.GetInt("EquippedWeapon1")){
+				options[i].transform.position = optionsselectedT[0].position;
+				options[i].GetComponent<CardEquipment>().originalpos = options[i].transform;
+				options[i].GetComponent<CardEquipment>().equipped = true;
+				options[i].GetComponent<CardEquipment>().slot = 1;
+			} else if(i == PlayerPrefs.GetInt("EquippedWeapon2")){
+				options[i].transform.position = optionsselectedT[1].position;
+				options[i].GetComponent<CardEquipment>().originalpos = options[i].transform;
+				options[i].GetComponent<CardEquipment>().equipped = true;
+				options[i].GetComponent<CardEquipment>().slot = 2;
+			}
+		}
+		/*if(PlayerPrefs.GetInt("EquippedWeapon1") == 0){
 			options[0].transform.position = optionsT[2].position;
 			options[0].GetComponent<CardEquipment>().equipped = true;
+			options[0].GetComponent<CardEquipment>().slot = 1;
 			options[1].transform.position = optionsT[1].position;
 			options[1].GetComponent<CardEquipment>().equipped = false;
 			options[2].transform.position = optionsT[0].position;
 			options[2].GetComponent<CardEquipment>().equipped = false;
-		} else if(PlayerPrefs.GetInt("EquippedWeapon") == 1){
+		} else if(PlayerPrefs.GetInt("EquippedWeapon1") == 1){
 			options[1].transform.position = optionsT[2].position;
 			options[1].GetComponent<CardEquipment>().equipped = true;
+			options[1].GetComponent<CardEquipment>().slot = 1;
 			options[0].transform.position = optionsT[1].position;
 			options[0].GetComponent<CardEquipment>().equipped = false;
 			options[2].transform.position = optionsT[0].position;
 			options[2].GetComponent<CardEquipment>().equipped = false;
-		} else if(PlayerPrefs.GetInt("EquippedWeapon") == 2){
+		} else if(PlayerPrefs.GetInt("EquippedWeapon1") == 2){
 			options[2].transform.position = optionsT[2].position;
 			options[2].GetComponent<CardEquipment>().equipped = true;
+			options[2].GetComponent<CardEquipment>().slot = 1;
 			options[0].transform.position = optionsT[1].position;
 			options[0].GetComponent<CardEquipment>().equipped = false;
 			options[1].transform.position = optionsT[0].position;
 			options[1].GetComponent<CardEquipment>().equipped = false;
 		}
+
+		if(PlayerPrefs.GetInt("EquippedWeapon2") == 0){
+			options[0].transform.position = optionsT[3].position;
+			options[0].GetComponent<CardEquipment>().equipped = true;
+			options[0].GetComponent<CardEquipment>().slot = 2;
+			options[1].transform.position = optionsT[1].position;
+			options[1].GetComponent<CardEquipment>().equipped = false;
+			options[2].transform.position = optionsT[0].position;
+			options[2].GetComponent<CardEquipment>().equipped = false;
+		} else if(PlayerPrefs.GetInt("EquippedWeapon2") == 1){
+			options[1].transform.position = optionsT[3].position;
+			options[1].GetComponent<CardEquipment>().equipped = true;
+			options[1].GetComponent<CardEquipment>().slot = 2;
+			options[0].transform.position = optionsT[1].position;
+			options[0].GetComponent<CardEquipment>().equipped = false;
+			options[2].transform.position = optionsT[0].position;
+			options[2].GetComponent<CardEquipment>().equipped = false;
+		} else if(PlayerPrefs.GetInt("EquippedWeapon2") == 2){
+			options[2].transform.position = optionsT[3].position;
+			options[2].GetComponent<CardEquipment>().equipped = true;
+			options[2].GetComponent<CardEquipment>().slot = 2;
+			options[0].transform.position = optionsT[1].position;
+			options[0].GetComponent<CardEquipment>().equipped = false;
+			options[1].transform.position = optionsT[0].position;
+			options[1].GetComponent<CardEquipment>().equipped = false;
+		}*/
 
 	}
 }

@@ -67,6 +67,8 @@ public class GameManager : MonoBehaviour
 	public Sprite[] sprites;
 
 	public bool waitPlay;
+
+	public Chat chatScript;
 	//public Text deckSizeText;
 	void Awake(){
 		cards.SetActive (false);
@@ -192,14 +194,24 @@ public class GameManager : MonoBehaviour
 		EnemyEquip[2].text = "MK " + Static.ShieldLvl + " Shields";
 		EnemyEquip[3].text = "MK " + Static.DrivesLvl + " Drives";
 
-		if(PlayerPrefs.GetInt("EquippedWeapon") == 0){
+		if(PlayerPrefs.GetInt("EquippedWeapon1") == 0){
 		PlayerEquip[0].text = "MK " + PlayerPrefs.GetInt("RepeaterLvl") + " Repeater";
-		} else if(PlayerPrefs.GetInt("EquippedWeapon") == 1){
+		} else if(PlayerPrefs.GetInt("EquippedWeapon1") == 1){
 		PlayerEquip[0].text = "MK " + PlayerPrefs.GetInt("RepeaterLvl") + " Light Cannon";
-		} else {
+		} else if(PlayerPrefs.GetInt("EquippedWeapon1") == 2) {
 		PlayerEquip[0].text = "MK " + PlayerPrefs.GetInt("RefractorLvl") + " Missile Launcher";
+		} else if(PlayerPrefs.GetInt("EquippedWeapon1") == 3) {
+			PlayerEquip[0].text = "MK " + PlayerPrefs.GetInt("RefractorLvl") + " Refractor";
 		}
-		PlayerEquip[1].text = "MK " + PlayerPrefs.GetInt("RefractorLvl") + " Refractor";
+		if(PlayerPrefs.GetInt("EquippedWeapon2") == 0){
+			PlayerEquip[1].text = "MK " + PlayerPrefs.GetInt("RepeaterLvl") + " Repeater";
+		} else if(PlayerPrefs.GetInt("EquippedWeapon2") == 1){
+			PlayerEquip[1].text = "MK " + PlayerPrefs.GetInt("RepeaterLvl") + " Light Cannon";
+		} else if(PlayerPrefs.GetInt("EquippedWeapon2") == 2) {
+			PlayerEquip[1].text = "MK " + PlayerPrefs.GetInt("RefractorLvl") + " Missile Launcher";
+		} else if(PlayerPrefs.GetInt("EquippedWeapon2") == 3) {
+			PlayerEquip[1].text = "MK " + PlayerPrefs.GetInt("RefractorLvl") + " Refractor";
+		}
 		PlayerEquip[2].text = "MK " + PlayerPrefs.GetInt("ShieldLvl") + " Shields";
 		PlayerEquip[3].text = "MK " + PlayerPrefs.GetInt("DrivesLvl") + " Drives";
 
