@@ -67,8 +67,9 @@ public class GameManager : MonoBehaviour
 	public Sprite[] sprites;
 
 	public bool waitPlay;
+    public bool waitChat;
 
-	public Chat chatScript;
+    public Chat chatScript;
 	//public Text deckSizeText;
 	void Awake(){
 		cards.SetActive (false);

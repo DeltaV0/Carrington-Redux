@@ -23,21 +23,25 @@ public class Chat : MonoBehaviour
 	public GameObject[] tutorialText;
 
 	public GameObject tutorialButton;
+
+	private bool first;
     // Start is called before the first frame update
     void Start()
     {
-		GameManager.This.waitPlay = true;
+		first = true;
+        GameManager.This.waitChat = true;
 		speaker = 0;
 		currentlyTyping = false;
 		section = 0;
-		SetText (PlayerPrefs.GetInt("Day"), PlayerPrefs.GetInt("ID"));
+		SetText (PlayerPrefs.GetInt("Day"), PlayerPrefs.GetInt("ID"), 0);
 		setSpeaker(int.Parse(text2 [section][1]), int.Parse(text2 [section][2]));
 		StartCoroutine(Type(text2[section][0]));
 		//tutorialText[0].SetActive(true);
     }
 
 	public void startAgain(int t){
-		GameManager.This.waitPlay = true;
+		text2.Clear();
+        GameManager.This.waitChat = true;
 		speaker = 0;
 		currentlyTyping = false;
 		section = 0;
@@ -124,21 +128,27 @@ public class Chat : MonoBehaviour
 		}
 	}
 
-	public void done(){
-		GameManager.This.waitPlay = false;
+	public void done() {
+		GameManager.This.waitChat = false;
+		GameManager.This.cards.SetActive(true);
+		GameManager.This.chat.SetActive(false);
+		if (first) { 
 		GameManager.anim.SetTrigger("PlayerTurn");
-		GameManager.This.cards.SetActive (true);
-		GameManager.This.chat.SetActive (false);
-		GameManager.This.startup ();
-		if(PlayerPrefs.GetInt("Day") == 0){
+		GameManager.This.startup();
+		if (PlayerPrefs.GetInt("Day") == 0) {
 			tutorialButton.SetActive(true);
 			tutorialText[1].SetActive(true);
 		}
-
 	}
+		first = false;
+
+
+    }
 
 	public void SetText(int day, int ID, int a){
-		if (day == 0) {
+        Debug.Log(day);
+        Debug.Log(a);
+        if (day == 0) {
 			text2.Add (new string[]{"Good afternoon commander!", "1", "0"});
 			text2.Add (new string[]{"With all of your training, we are sure that you know exactly what you're doing.", "1", "0"});
 			text2.Add (new string[]{"Just to make sure that you are combat ready, we will be giving you a quick rundown on how to operate an Airship.", "1", "0"});
@@ -151,20 +161,40 @@ public class Chat : MonoBehaviour
 			text2.Add (new string[]{"Affirmitive.", "0", "1"});
 			text2.Add (new string[]{"It is I! The spooky scary enemy Airship! I'll shoot you!", "2", "0"});
 		} else if (day == 2) {
-			text2.Add (new string[]{"I've arrived at the objective area.", "0", "1"});
-			text2.Add (new string[]{"Affirmitive.", "1", "0"});
-			text2.Add (new string[]{"Once again, we need you to destroy the enemy Airship.", "1", "0"});
-			text2.Add (new string[]{"Understood.", "0", "1"});
-			text2.Add (new string[]{"There isnt much for me to say besides that.", "1", "0"});
-			text2.Add (new string[]{"I'm back again! You really thought you could simply shoot me to death??", "2", "0"});
-			text2.Add (new string[]{"Well i'm actually a different person this time...", "2", "0"});
-			text2.Add (new string[]{"Doesnt matter.", "2", "0"});
-			text2.Add (new string[]{"I'll just continue shooting at you if you so desire.", "0", "1"});
+			if (a == 0)
+			{
+				text2.Add(new string[] { "I've arrived at the objective area.", "0", "1" });
+				text2.Add(new string[] { "Affirmitive.", "1", "0" });
+				text2.Add(new string[] { "Once again, we need you to destroy the enemy Airship.", "1", "0" });
+				text2.Add(new string[] { "Understood.", "0", "1" });
+				text2.Add(new string[] { "There isnt much for me to say besides that.", "1", "0" });
+				text2.Add(new string[] { "I'm back again! You really thought you could simply shoot me to death??", "2", "0" });
+				text2.Add(new string[] { "Well i'm actually a different person this time...", "2", "0" });
+				text2.Add(new string[] { "Doesnt matter.", "2", "0" });
+				text2.Add(new string[] { "I'll just continue shooting at you if you so desire.", "0", "1" });
+			} else if (a==1) {
+                text2.Add(new string[] { "Great job commander!", "1", "0" });
+                text2.Add(new string[] { "You... absolutely obliterated that guy", "1", "0" });
+                text2.Add(new string[] { "Well you should probably get back to the hangar now.", "1", "0" });
+                text2.Add(new string[] { "Okay", "0", "1" });
+               // text2.Add(new string[] { "It is I! The spooky scary enemy Airship! I'll shoot you!", "2", "0" });
+            }
 		} else if (day == 3) {
-			text2.Add (new string[]{"Hello!", "0", "1"});
-			text2.Add (new string[]{"...", "2", "0"});
-			text2.Add (new string[]{"Your mission remains the same, destroy the enemy", "1", "0"});
-			text2.Add (new string[]{"Ok.", "0", "1"});
+			if (a == 0)
+			{
+                Debug.Log("running 0");
+                text2.Add(new string[] { "Hello!", "0", "1" });
+				text2.Add(new string[] { "...", "2", "0" });
+				text2.Add(new string[] { "Your mission remains the same, destroy the enemy", "1", "0" });
+				text2.Add(new string[] { "Ok.", "0", "1" });
+			}
+			else if (a == 1) {
+                Debug.Log("running 1");
+                text2.Add(new string[] { "Great job commander!", "1", "0" });
+                text2.Add(new string[] { "You... absolutely obliterated that guy", "1", "0" });
+                text2.Add(new string[] { "Well you should probably get back to the hangar now.", "1", "0" });
+                text2.Add(new string[] { "Okay", "0", "1" });
+            }
 		} 
 	}
 }

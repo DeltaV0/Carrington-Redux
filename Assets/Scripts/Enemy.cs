@@ -58,7 +58,8 @@ public class Enemy : MonoBehaviour
 	public GameObject shobj;
 
 	private bool death;
-	bool one;
+    private bool death2;
+    bool one;
 
 	public static Enemy This;
 
@@ -67,6 +68,8 @@ public class Enemy : MonoBehaviour
 	public Transform myloc;
 
 	public GameObject[] gobj;
+
+	private bool chatting;
     // Start is called before the first frame update
     void Start()
     {
@@ -76,7 +79,8 @@ public class Enemy : MonoBehaviour
 		spritemodel[Random.Range(0, 1)].SetActive(true);
 		one = false;
 		death = false;
-		syshealth[0] = 150;
+        death2 = false;
+        syshealth[0] = 150;
 		syshealth[1] = 150;
 		syshealth[2] = 150;
 		syshealth[3] = 150;
@@ -92,7 +96,7 @@ public class Enemy : MonoBehaviour
 		if(PlayerPrefs.GetInt("Day") == 0){
 		maxHealth = 400; 
 		} else {
-			maxHealth = 800 + ((10 * Random.Range(1, 6)) * (PlayerPrefs.GetInt("Day") - 1)); 
+			maxHealth = 001 + ((10 * Random.Range(1, 6)) * (PlayerPrefs.GetInt("Day") - 1)); 
 		}
 
 		health = maxHealth; 
@@ -100,23 +104,40 @@ public class Enemy : MonoBehaviour
 		done = false;
 		steam = 10;
 		power = 0;
+		chatting = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-		if(health <= 0 && !death){
-			if(PlayerPrefs.GetInt("Day") != 0){
-			PlayerPrefs.SetInt("BattleWin", 1);
+		if (health <= 0 && !death) {
+			if (PlayerPrefs.GetInt("Day") != 0) {
+				PlayerPrefs.SetInt("BattleWin", 1);
 			}
-			PlayerPrefs.SetInt("Day", PlayerPrefs.GetInt("Day") + 1);
-			//PlayerPrefs.SetInt("Kills", PlayerPrefs.GetInt("Kills") + 1);
-			death = true;
+            //PlayerPrefs.SetInt("Kills", PlayerPrefs.GetInt("Kills") + 1);
+            GameManager.This.waitChat = true;
+            death2 = true;
+            death = true;
 			anim.SetTrigger("death");
-			Invoke("deathFr", 5f);
-		}
+            anim.SetBool("Dead", true);
+            //GameManager.This.waitPlay = true;
+            GameManager.This.chatScript.startAgain(1);
+            death2 = false;
+            //Invoke("deathFr", 5f);
+        } else if (health <= 0 && death && !death2) {
+			//pain (WHY DOESNT THIS WORK??) try again tommorow.
+			if (!GameManager.This.waitChat) {
+                GameManager.This.cards.SetActive(false);
+                GameManager.This.chat.SetActive(true);
+                PlayerPrefs.SetInt("Day", PlayerPrefs.GetInt("Day") + 1);
+                death2 = true;
+				//set this back to 5 when done debugging
+				Invoke("deathFr", 1f);
+			}
+        }
 		if(Player.health <= 0){
 			SceneManager.LoadSceneAsync("Death");
+			Player.health = 1;
 			//PlayerPrefs.DeleteAll();
 			//PlayerPrefs.Save();
 		}
@@ -128,6 +149,12 @@ public class Enemy : MonoBehaviour
 			StartCoroutine(AI ());
 		}
 		if(GameManager.turn % 2 == 1 && done){
+			//if (health <= 900 && !chatting) {
+				//chatting = true;
+                //GameManager.This.waitPlay = true;
+                //GameManager.This.chatScript.startAgain(0);
+           // }
+			if (!GameManager.This.waitChat) { 
 			GameManager.anim.SetTrigger("PlayerTurn");
 			if(PlayerPrefs.GetInt("Day") == 0 && GameManager.turn == 1){
 				Invoke("DrawSpec", 0f);
@@ -156,6 +183,7 @@ public class Enemy : MonoBehaviour
 			//} 
 			if(Player.steam > 20) {
 				Player.steam = 20;
+			}
 			}
 		}
 
