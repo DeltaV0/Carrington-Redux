@@ -149,17 +149,28 @@ public class Chat : MonoBehaviour
         Debug.Log(day);
         Debug.Log(a);
         if (day == 0) {
+			if(a == 0){
 			text2.Add (new string[]{"Good afternoon commander!", "1", "0"});
 			text2.Add (new string[]{"With all of your training, we are sure that you know exactly what you're doing.", "1", "0"});
 			text2.Add (new string[]{"Just to make sure that you are combat ready, we will be giving you a quick rundown on how to operate an Airship.", "1", "0"});
 			text2.Add (new string[]{"Sounds good!", "0", "1"});
+			} else if (a==1) {
+			text2.Add (new string[]{"Okay I suppose you know what you're doing.", "1", "0"});
+			}
 			//text2.Add (new string[]{"", "1", "0"});
 		}else if (day == 1) {
+			if(a == 0){
 			text2.Add (new string[]{"Testing testing. Do you copy?", "0", "1"});
 			text2.Add (new string[]{"Indeed we do commander.", "1", "0"});
 			text2.Add (new string[]{"Your mission is very simple, destroy the enemy Airship.", "1", "0"});
 			text2.Add (new string[]{"Affirmitive.", "0", "1"});
 			text2.Add (new string[]{"It is I! The spooky scary enemy Airship! I'll shoot you!", "2", "0"});
+			} else if (a==1) {
+				text2.Add (new string[]{"I have been defeated! >_<", "2", "0"});
+				text2.Add (new string[]{"That wasn't that bad", "0", "1"});
+				text2.Add (new string[]{"Great job commander!", "1", "0"});
+
+			}
 		} else if (day == 2) {
 			if (a == 0)
 			{
@@ -190,11 +201,14 @@ public class Chat : MonoBehaviour
 			}
 			else if (a == 1) {
                 Debug.Log("running 1");
-                text2.Add(new string[] { "Great job commander!", "1", "0" });
-                text2.Add(new string[] { "You... absolutely obliterated that guy", "1", "0" });
-                text2.Add(new string[] { "Well you should probably get back to the hangar now.", "1", "0" });
-                text2.Add(new string[] { "Okay", "0", "1" });
+                text2.Add(new string[] { "Once again, great job commander!", "1", "0" });
+                text2.Add(new string[] { "Bro got cooked frfr", "1", "0" });
+                text2.Add(new string[] { "That's it for the dialog i didnt write anymore after this lol", "1", "0" });
+                text2.Add(new string[] { ":(", "0", "1" });
             }
 		} 
+		else {
+			text2.Add (new string[]{"I dunno what to say, this is just placeholder text lol", "2", "0"});
+		}
 	}
 }
